@@ -9,6 +9,7 @@
     >
     </div>
     <p>rgba( {{ red }}, {{ green }}, {{ blue }}, 0.5 )</p>
+    <!-- rangeで色を指定できるようにした -->
     <div class="red">赤</div>
     <input type="range" min="0" max="255" v-model="red">
     <div class="green">緑</div>
@@ -43,6 +44,7 @@
         this.colors.push({red: this.red, green: this.green, blue: this.blue})
         this.idCount++
       },
+      //paletteの位置でX座標で赤,Y座標で緑が変わる
       colorChange: function(e){
         this.red=e.offsetX
         this.green=e.offsetY
