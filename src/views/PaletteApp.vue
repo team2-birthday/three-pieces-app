@@ -1,13 +1,67 @@
 <template>
   <h1>Vue パレット</h1>
   <div class="app">
-    <div class="palette" style="background-color: rgba(0, 0, 200, 0.5)"></div>
-    <p>rgba( {{ 0 }}, {{ 0 }}, 200, 0.5 )</p>
+    <div 
+      class="palette" 
+      v-bind:style="{ backgroundColor: `rgba(${red}, ${green}, ${blue}, ${transparency})` }" 
+      v-on:click="colorDecision"
+      v-on:mousemove="colorChange"
+    >
+    </div>
+    <p>rgba( {{ red }}, {{ green }}, {{ blue }}, {{transparency}} )</p>
+    <!-- rangeで色を指定できるようにした -->
+    <div class="red">赤</div>
+    <input type="range" min="0" max="255" v-model="red">
+    <div class="green">緑</div>
+    <input type="range" min="0" max="255" v-model="green">
+    <div class="blue">青</div>
+    <input type="range" min="0" max="255" v-model="blue">
+    <div class="transparency">透明度</div>
+    <input type="range" min="0" max="1" step="0.01" v-model="transparency">
+    <button v-on:click="colorDecision" class="color-decision">この色に決定</button>
     <div class="colors-container">
-      <div class="mini-palette"></div>
+      <div 
+        v-for="color in colors" v-bind:key="color" v-bind:color="color" 
+        v-bind:style="{ backgroundColor: `rgba(${color.red}, ${color.green}, ${color.blue}, ${color.transparency})` }"
+        v-on:click="pastColorDecision(color)"
+        class="mini-palette"
+      >
+      </div>
     </div>
   </div>
 </template>
+
+<script>
+  export default{
+    data(){
+      return{
+        red: 0,
+        green: 0,
+        blue: 0,
+        transparency: 0,
+        colors: []
+      }
+    },
+    methods: {
+      colorDecision: function(){
+        this.colors.push({red: this.red, green: this.green, blue: this.blue, transparency: this.transparency})
+      },
+      //paletteの位置でX座標で赤,Y座標で緑が変わる
+      colorChange: function(e){
+        this.red=e.offsetX
+        this.green=e.offsetY
+      },
+      // クリックしたミニパレットの色をパレットに表示する
+      pastColorDecision: function(color){
+        this.red=color.red
+        this.green=color.green
+        this.blue=color.blue
+        this.transparency=color.transparency
+      }
+    },
+  }
+
+</script>
 
 <style>
 .app {
@@ -19,6 +73,77 @@
 .palette {
   width: 255px;
   height: 255px;
+}
+.red{
+  font-size:1.5em;
+	text-align:center;
+	line-height:0.95em;
+	font-weight:bold;
+	color: transparent;
+	background: repeating-linear-gradient(0deg, #C62828 0.1em, #EF5350 0.2em, #FFEBEE 0.3em, #EF5350 0.4em, #C62828 0.5em); 
+	-webkit-background-clip: text;
+}
+.green{
+  font-size:1.5em;
+	text-align:center;
+	line-height:0.95em;
+	font-weight:bold;
+	color: transparent;
+	background: repeating-linear-gradient(0deg, #28c635 0.1em, #3fdf54 0.2em, #FFEBEE 0.3em, #50ef85 0.4em, #28c628 0.5em); 
+	-webkit-background-clip: text;
+}
+.blue{
+  font-size:1.5em;
+	text-align:center;
+	line-height:0.95em;
+	font-weight:bold;
+	color: transparent;
+	background: repeating-linear-gradient(0deg, #0277BD 0.1em, #4FC3F7 0.2em, #E1F5FE 0.3em, #4FC3F7 0.4em, #0277BD 0.5em); 
+	-webkit-background-clip: text;
+}
+.color-decision{
+  margin-top: 1%;
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  padding: 0 30px;
+  font-size: 19px;
+  height: 40px;
+  line-height: 40px!;
+  background: #24242c;
+  font-size: 20px;
+  color: rgb(6, 241, 131);
+  transition: .4s;
+  border: none;
+}
+.color-decision:before{
+  position: absolute;
+  content: '';
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  border: none;
+  border-left: solid 21px white;
+  border-bottom: solid 41px transparent;
+  z-index: 1;
+  transition: .4s;
+}
+.color-decision:after{
+  position: absolute;
+  content: '';
+  right: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  border: none;
+  border-left: solid 21px transparent;
+  border-bottom: solid 41px white;
+  z-index: 1;
+  transition: .4s;
+}
+.color-decision:hover:before, .color-decision:hover:after {
+  border-left-width: 25px;
 }
 .mini-palette {
   min-width: 60px;
