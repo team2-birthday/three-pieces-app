@@ -20,6 +20,7 @@
       <div 
         v-for="color in colors" v-bind:key="color" v-bind:color="color" 
         v-bind:style="{ backgroundColor: `rgba(${color.red}, ${color.green}, ${color.blue}, 0.5)` }"
+        v-on:click="pastColorDecision(color)"
         class="mini-palette"
       >
       </div>
@@ -40,10 +41,17 @@
     methods: {
       colorDecision: function(){
         this.colors.push({red: this.red, green: this.green, blue: this.blue})
+        this.idCount++
       },
       colorChange: function(e){
         this.red=e.offsetX
         this.green=e.offsetY
+      },
+      // クリックしたミニパレットの色をパレットに表示する
+      pastColorDecision: function(color){
+        this.red=color.red
+        this.green=color.green
+        this.blue=color.blue
       }
     },
   }
