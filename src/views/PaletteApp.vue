@@ -1,63 +1,66 @@
 <template>
   <h1>Vue パレット</h1>
   <div class="app">
-    <div 
-      class="palette" 
-      v-bind:style="{ backgroundColor: `rgba(${red}, ${green}, ${blue}, 0.5)` }" 
+    <div
+      class="palette"
+      v-bind:style="{ backgroundColor: `rgba(${red}, ${green}, ${blue}, 0.5)` }"
       v-on:click="colorDecision"
       v-on:mousemove="colorChange"
-    >
-    </div>
+    ></div>
     <p>rgba( {{ red }}, {{ green }}, {{ blue }}, 0.5 )</p>
     <!-- rangeで色を指定できるようにした -->
     <div class="red">赤</div>
-    <input type="range" min="0" max="255" v-model="red">
+    <input type="range" min="0" max="255" v-model="red" />
     <div class="green">緑</div>
-    <input type="range" min="0" max="255" v-model="green">
+    <input type="range" min="0" max="255" v-model="green" />
     <div class="blue">青</div>
-    <input type="range" min="0" max="255" v-model="blue">
-    <button v-on:click="colorDecision" class="color-decision">この色に決定</button>
+    <input type="range" min="0" max="255" v-model="blue" />
+    <button v-on:click="colorDecision" class="color-decision">
+      この色に決定
+    </button>
     <div class="colors-container">
-      <div 
-        v-for="color in colors" v-bind:key="color" v-bind:color="color" 
-        v-bind:style="{ backgroundColor: `rgba(${color.red}, ${color.green}, ${color.blue}, 0.5)` }"
+      <div
+        v-for="color in colors"
+        v-bind:key="color"
+        v-bind:color="color"
+        v-bind:style="{
+          backgroundColor: `rgba(${color.red}, ${color.green}, ${color.blue}, 0.5)`,
+        }"
         v-on:click="pastColorDecision(color)"
         class="mini-palette"
-      >
-      </div>
+      ></div>
     </div>
   </div>
 </template>
 
 <script>
-  export default{
-    data(){
-      return{
-        red: 0,
-        green: 0,
-        blue: 0,
-        colors: []
-      }
+export default {
+  data() {
+    return {
+      red: 0,
+      green: 0,
+      blue: 0,
+      colors: [],
+    }
+  },
+  methods: {
+    colorDecision: function () {
+      this.colors.push({ red: this.red, green: this.green, blue: this.blue })
+      this.idCount++
     },
-    methods: {
-      colorDecision: function(){
-        this.colors.push({red: this.red, green: this.green, blue: this.blue})
-        this.idCount++
-      },
-      //paletteの位置でX座標で赤,Y座標で緑が変わる
-      colorChange: function(e){
-        this.red=e.offsetX
-        this.green=e.offsetY
-      },
-      // クリックしたミニパレットの色をパレットに表示する
-      pastColorDecision: function(color){
-        this.red=color.red
-        this.green=color.green
-        this.blue=color.blue
-      }
+    //paletteの位置でX座標で赤,Y座標で緑が変わる
+    colorChange: function (e) {
+      this.red = e.offsetX
+      this.green = e.offsetY
     },
-  }
-
+    // クリックしたミニパレットの色をパレットに表示する
+    pastColorDecision: function (color) {
+      this.red = color.red
+      this.green = color.green
+      this.blue = color.blue
+    },
+  },
+}
 </script>
 
 <style>
@@ -71,16 +74,16 @@
   width: 255px;
   height: 255px;
 }
-.red{
+.red {
   color: red;
 }
-.green{
+.green {
   color: green;
 }
-.blue{
+.blue {
   color: blue;
 }
-.color-decision{
+.color-decision {
   margin-top: 1%;
 }
 .mini-palette {
