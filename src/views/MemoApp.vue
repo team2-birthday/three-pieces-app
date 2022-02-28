@@ -7,7 +7,9 @@
           <input type="checkbox" class="checkbox" />
         </div>
         <div class="memo_text">{{ memo }}</div>
-        <button class="memo_delete">削除</button>
+        <button class="memo_delete" v-on:click="deleteButton(memo)">
+          削除
+        </button>
       </li>
     </ul>
     <div class="add-memo-field">
@@ -27,10 +29,20 @@ export default {
   },
   methods: {
     saveMemo: async function () {
-      this.memolist.push(this.inputmemo)
+      if (this.inputmemo) {
+        this.memolist.push(this.inputmemo)
+        let list_json = JSON.stringify(this.memolist)
+        await localStorage.setItem("memo", list_json)
+        this.inputmemo = ""
+      }
+    },
+    deleteButton: async function (str) {
+      const i = this.memolist.indexOf(str)
+      console.log(str + i)
+      // console.log(`${i}, ${str}`)
+      this.memolist.splice(i, 1)
       let list_json = JSON.stringify(this.memolist)
       await localStorage.setItem("memo", list_json)
-      this.inputmemo = ""
     },
   },
   // computed: {
