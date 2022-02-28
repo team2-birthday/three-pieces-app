@@ -2,31 +2,17 @@
   <h1>Vue メモ</h1>
   <div class="memo-list">
     <ul class="memo-list__container">
-      <li class="memo">
-        <div class="memo__checkbox">
-          <input type="checkbox" />
+      <li class="memo" v-for="memo in memolist" v-bind:key="memo">
+        <div class="memo_checkbox">
+          <input type="checkbox" class="checkbox" />
         </div>
-        <div class="memo__text">ひき肉を300g買う</div>
-        <button class="memo__delete">削除</button>
-      </li>
-      <li class="memo">
-        <div class="memo__checkbox">
-          <input type="checkbox" />
-        </div>
-        <div class="memo__text">ホウレンソウを1束買う</div>
-        <button class="memo__delete">削除</button>
-      </li>
-      <li class="memo">
-        <div class="memo__checkbox">
-          <input type="checkbox" />
-        </div>
-        <div class="memo__text">ピーマンを2個買う</div>
-        <button class="memo__delete">削除</button>
+        <div class="memo_text">{{ memo }}</div>
+        <button class="memo_delete">削除</button>
       </li>
     </ul>
     <div class="add-memo-field">
-      <input class="add-memo-field__input" type="text" />
-      <button class="add-memo-field__button">追加</button>
+      <input class="add-memo-field__input" type="text" v-model="inputmemo" />
+      <button class="add-memo-field__button" v-on:click="saveMemo">追加</button>
     </div>
   </div>
 </template>
@@ -35,7 +21,33 @@
 export default {
   data() {
     return {
-      memo: "",
+      inputmemo: "",
+      memolist: [],
+    }
+  },
+  methods: {
+    saveMemo: async function () {
+      this.memolist.push(this.inputmemo)
+      let list_json = JSON.stringify(this.memolist)
+      await localStorage.setItem("memo", list_json)
+      this.inputmemo = ""
+    },
+  },
+  // computed: {
+  //   memolist: function () {
+  //     const listJson = localStorage.getItem("memo")
+  //     const listofmemo = JSON.parse(listJson)
+  //     return listofmemo
+  //   },
+  // },
+  created: function () {
+    const m = JSON.parse(localStorage.getItem("memo"))
+    console.log(m)
+    if (m) {
+      console.log(m)
+      this.memolist = [...m]
+    } else {
+      localStorage.setItem("memo", "[]")
     }
   },
 }
