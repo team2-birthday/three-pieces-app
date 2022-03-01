@@ -3,7 +3,6 @@
   <nav class="navigation">
       <router-link
         to="/quiz"
-        exact-active-class="navigation__link--exact-active"
         v-on:mouseover="overQuiz"
         v-on:mouseout="outQuiz"
         v-bind:class="{ judgequiz: judgeQuiz, navigation__link: navigationLink.quiz}"
@@ -11,7 +10,6 @@
       >|
       <router-link
         to="/palette"
-        exact-active-class="navigation__link--exact-active"
         v-on:mouseover="overPalette"
         v-on:mouseout="outPalette"
         v-bind:class="{ judgepalette: judgePalette, navigation__link: navigationLink.palette}"
@@ -19,7 +17,6 @@
       >|
       <router-link
         to="/memo"
-        exact-active-class="navigation__link--exact-active"
         v-on:mouseover="overMemo"
         v-on:mouseout="outMemo"
         v-bind:class="{ judgememo: judgeMemo, navigation__link: navigationLink.memo}"
