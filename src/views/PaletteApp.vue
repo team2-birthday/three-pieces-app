@@ -53,6 +53,18 @@
       <button class="clear-button" v-on:click="clear">クリア</button>
       <button class="eraser-button" v-on:click="eraser">消しゴム</button>
     </div>
+    <div class="pen-width">
+      <div>ペンの太さ {{ penWidth }}px</div>
+      <input type="range" min="1" max="32" v-model="penWidth" />
+      <div class="click-please">
+        ※太さを変えたらペンボタンをクリックして下さい。
+      </div>
+      <div>消しゴムの大きさ {{ eraserWidth }}px</div>
+      <input type="range" min="1" max="32" v-model="eraserWidth" />
+      <div class="click-please">
+        ※太さを変えたら消しゴムボタンをクリックして下さい。
+      </div>
+    </div>
     <div class="current-draw-mode">{{ currentDrawMode }}</div>
   </div>
 </template>
@@ -71,6 +83,8 @@ export default {
       isDraw: false,
       drawMode: "pen",
       currentDrawMode: "ペン",
+      penWidth: 1,
+      eraserWidth: 32,
     }
   },
   mounted() {
@@ -81,7 +95,7 @@ export default {
     // 線の接合箇所の形状を丸くする
     this.context.lineJoin = "round"
     //線の幅
-    this.context.lineWidth = 5
+    this.context.lineWidth = this.penWidth
     // 線・輪郭の色やスタイルを指定する
     this.context.strokeStyle = `rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`
   },
@@ -158,7 +172,7 @@ export default {
       // 描画設定
       this.context.lineCap = "round"
       this.context.lineJoin = "round"
-      this.context.lineWidth = 5
+      this.context.lineWidth = this.penWidth
       this.context.strokeStyle = `rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`
     },
     // 消しゴムモード
@@ -169,7 +183,7 @@ export default {
       // 描画設定
       this.context.lineCap = "square"
       this.context.lineJoin = "square"
-      this.context.lineWidth = 30
+      this.context.lineWidth = this.eraserWidth
       this.context.strokeStyle = "white"
     },
     // canvasをクリア
@@ -391,5 +405,15 @@ export default {
 }
 .pen-button:hover {
   background-image: linear-gradient(45deg, #abe7ba 0%, #0bf52a 100%);
+}
+.pen-width {
+  font-size: 1.5em;
+  text-align: center;
+  line-height: 0.95em;
+  font-weight: bold;
+  margin-top: 1%;
+}
+.click-please {
+  font-size: 0.5rem;
 }
 </style>
