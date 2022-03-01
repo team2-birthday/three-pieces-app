@@ -35,6 +35,20 @@
       ></div>
     </div>
   </div>
+  <div>
+    <h1>パレットで作った色を使ってお絵描きしてみよう！</h1>
+    <div id="canvas-area" class="canvas-area">
+      <canvas
+        id="myCanvas"
+        width="255"
+        height="255"
+        @mousedown="drawStart"
+        @mouseup="drawEnd"
+        @mouseout="drawEnd"
+        @mousemove="draw"
+      ></canvas>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -46,10 +60,28 @@ export default {
       blue: 0,
       opacity: 1,
       colors: [],
+      canvas: null,
+      context: null,
+      isDraw: false,
     }
+  },
+  mounted() {
+    this.canvas = document.querySelector("#myCanvas")
+    this.context = this.canvas.getContext("2d")
+    // 線端の形状を丸くする
+    this.context.lineCap = "round"
+    // 線の接合箇所の形状を丸くする
+    this.context.lineJoin = "round"
+    //線の幅
+    this.context.lineWidth = 5
+    // 線・輪郭の色やスタイルを指定する
+    this.context.strokeStyle = `rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`
   },
   methods: {
     colorDecision: function () {
+      //描く色をもパレットと同じ色にする
+      this.context.strokeStyle=`rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`
+      console.log(this.context.strokeStyle)
       this.colors.push({
         red: this.red,
         green: this.green,
@@ -68,6 +100,33 @@ export default {
       this.green = color.green
       this.blue = color.blue
       this.opacity = color.opacity
+      //描く色をもパレットと同じ色にする
+      this.context.strokeStyle=`rgba(${color.red}, ${color.green}, ${color.blue}, ${color.opacity})`
+      console.log(this.context.strokeStyle)
+    },
+    // 描画
+    draw: function (e) {
+      let x = e.layerX
+      let y = e.layerY
+      if (!this.isDraw) {
+        return
+      }
+      this.context.lineTo(x, y)
+      this.context.stroke()
+    },
+    // 描画開始（mousedown）
+    drawStart: function (e) {
+      let x = e.layerX
+      let y = e.layerY
+      this.context.beginPath()
+      this.context.lineTo(x, y)
+      this.context.stroke()
+      this.isDraw = true
+    },
+    // 描画終了（mouseup, mouseout）
+    drawEnd: function () {
+      this.context.closePath()
+      this.isDraw = false
     },
   },
 }
@@ -194,5 +253,16 @@ export default {
   flex-wrap: wrap;
   width: 300px;
   padding-top: 8px;
+}
+.canvas-area{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+#myCanvas {
+  border: 1px solid black;
+  height: 255px;
+  width: 255px;
 }
 </style>
