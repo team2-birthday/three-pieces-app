@@ -59,8 +59,8 @@ export default {
     },
     //paletteの位置でX座標で赤,Y座標で緑が変わる
     colorChange: function (e) {
-      this.red=e.offsetX
-      this.green=e.offsetY
+      this.red = e.offsetX
+      this.green = e.offsetY
     },
     // クリックしたミニパレットの色をパレットに表示する
     pastColorDecision: function (color) {
