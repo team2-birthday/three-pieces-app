@@ -9,14 +9,16 @@
   </div>
   <div class="memo-list">
     <ul class="memo-list__container">
-      <li class="memo" v-for="memo in memolist" v-bind:key="memo">
+      <li class="memo" v-for="(obj, index) in outputList" v-bind:key="obj">
         <div class="memo_checkbox">
-          <input type="checkbox" class="checkbox" />
+          <input
+            type="checkbox"
+            v-model="outputList[index].flag"
+            v-on:change="changeFlag"
+          />
         </div>
-        <div class="memo_text">{{ memo }}</div>
-        <button class="memo_delete" v-on:click="deleteButton(memo)">
-          削除
-        </button>
+        <div class="memo_text">{{ obj.memo }}</div>
+        <button class="memo_delete" v-on:click="deleteButton(obj)">削除</button>
       </li>
     </ul>
     <div class="add-memo-field">
@@ -32,36 +34,63 @@ export default {
     return {
       inputmemo: "",
       memolist: [],
+      flaglist: [],
+      flag: true,
+      finish: 0,
     }
   },
   methods: {
-    saveMemo: async function () {
+    saveMemo: function () {
       if (this.inputmemo) {
-        this.memolist.push(this.inputmemo)
+        this.memolist.push({ flag: false, memo: this.inputmemo })
+        // this.flaglist.push(false)
         let list_json = JSON.stringify(this.memolist)
-        await localStorage.setItem("memo", list_json)
+        localStorage.setItem("memo", list_json)
         this.inputmemo = ""
       }
     },
-    deleteButton: async function (str) {
-      const i = this.memolist.indexOf(str)
+    deleteButton: function (obj) {
+      const i = this.memolist.indexOf(obj)
       // console.log(str + i)
       // console.log(`${i}, ${str}`)
       this.memolist.splice(i, 1)
       let list_json = JSON.stringify(this.memolist)
-      await localStorage.setItem("memo", list_json)
+      localStorage.setItem("memo", list_json)
+    },
+    changeFlag: function () {
+      // if (this.memolist[index].flag === false) {
+      //   this.memolist[index].flag = true
+      // } else {
+      //   this.memolist[index].flag = false
+      // }
+      let list_json = JSON.stringify(this.memolist)
+      localStorage.setItem("memo", list_json)
     },
   },
   computed: {
     outputList: function () {
-      const listJson = localStorage.getItem("memo")
-      const listofmemo = JSON.parse(listJson)
-      return listofmemo
+      let output = []
+      if (this.finish === "0") {
+        output = this.memolist
+      } else if (this.finish === "1") {
+        for (let i = 0; i < this.memolist.length; i++) {
+          if (this.memolist[i].flag === false) {
+            output.push(this.memolist[i])
+          }
+        }
+      } else {
+        for (let i = 0; i < this.memolist.length; i++) {
+          if (this.memolist[i].flag === true) {
+            output.push(this.memolist[i])
+          }
+        }
+      }
+      return output
     },
   },
   created: function () {
     const m = JSON.parse(localStorage.getItem("memo"))
-    console.log(m)
+    // console.log(m)
     if (m) {
       // console.log(m)
       this.memolist = [...m]
