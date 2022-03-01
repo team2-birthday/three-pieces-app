@@ -1,5 +1,5 @@
 <template>
-  <h1>Vue パレット</h1>
+  <h1 class="Vue-palette-title">Vue パレット</h1>
   <div class="app">
     <div
       class="palette"
@@ -36,18 +36,24 @@
     </div>
   </div>
   <div>
-    <h1>パレットで作った色を使ってお絵描きしてみよう！</h1>
+    <h1 class="draw-title">パレットで作った色を使ってお絵描きしてみよう！</h1>
     <div id="canvas-area" class="canvas-area">
       <canvas
         id="myCanvas"
         width="255"
         height="255"
-        @mousedown="drawStart"
-        @mouseup="drawEnd"
-        @mouseout="drawEnd"
-        @mousemove="draw"
+        v-on:mousedown="drawStart"
+        v-on:mouseup="drawEnd"
+        v-on:mouseout="drawEnd"
+        v-on:mousemove="draw"
       ></canvas>
     </div>
+    <div class="tool-area">
+      <button class="pen-button" v-on:click="pen">ペン</button>
+      <button class="clear-button" v-on:click="clear">クリア</button>
+      <button class="eraser-button" v-on:click="eraser">消しゴム</button>
+    </div>
+    <div class="current-draw-mode">{{ currentDrawMode }}</div>
   </div>
 </template>
 
@@ -63,6 +69,8 @@ export default {
       canvas: null,
       context: null,
       isDraw: false,
+      drawMode: "pen",
+      currentDrawMode: "ペン",
     }
   },
   mounted() {
@@ -80,8 +88,12 @@ export default {
   methods: {
     colorDecision: function () {
       //描く色をもパレットと同じ色にする
-      this.context.strokeStyle=`rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`
-      console.log(this.context.strokeStyle)
+      if (this.drawMode === "pen") {
+        this.context.strokeStyle = `rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`
+        console.log(this.context.strokeStyle)
+      } else {
+        this.context.strokeStyle = "white"
+      }
       this.colors.push({
         red: this.red,
         green: this.green,
@@ -101,8 +113,13 @@ export default {
       this.blue = color.blue
       this.opacity = color.opacity
       //描く色をもパレットと同じ色にする
-      this.context.strokeStyle=`rgba(${color.red}, ${color.green}, ${color.blue}, ${color.opacity})`
-      console.log(this.context.strokeStyle)
+      if (this.drawMode === "pen") {
+        this.context.strokeStyle = `rgba(${color.red}, ${color.green}, ${color.blue}, ${color.opacity})`
+        console.log(this.context.strokeStyle)
+      } else {
+        this.context.strokeStyle = "white"
+        console.log(this.context.strokeStyle)
+      }
     },
     // 描画
     draw: function (e) {
@@ -116,23 +133,63 @@ export default {
     },
     // 描画開始（mousedown）
     drawStart: function (e) {
+      // マウスイベント発火時の、マウスポインタの水平位置のピクセル数値
       let x = e.layerX
+      // マウスイベント発火時の、マウスポインタの垂直位置のピクセル数値
       let y = e.layerY
+      // beginPath：新しいpath情報作成が始まる
       this.context.beginPath()
+      // lineTo：現在の座標と、指定された座標を結ぶ直線を作る
       this.context.lineTo(x, y)
       this.context.stroke()
       this.isDraw = true
     },
     // 描画終了（mouseup, mouseout）
     drawEnd: function () {
+      // closePath：現在の座標とpath開始時点を結ぶ直線を作る
       this.context.closePath()
       this.isDraw = false
+    },
+    // ペン
+    pen: function () {
+      // カーソル変更
+      this.drawMode = "pen"
+      this.currentDrawMode = "ペン"
+      // 描画設定
+      this.context.lineCap = "round"
+      this.context.lineJoin = "round"
+      this.context.lineWidth = 5
+      this.context.strokeStyle = `rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`
+    },
+    // 消しゴムモード
+    eraser: function () {
+      // カーソル変更
+      this.drawMode = "eraser"
+      this.currentDrawMode = "消しゴム"
+      // 描画設定
+      this.context.lineCap = "square"
+      this.context.lineJoin = "square"
+      this.context.lineWidth = 30
+      this.context.strokeStyle = "white"
+    },
+    // canvasをクリア
+    clear: function () {
+      // clearRect(x, y, w, h)メソッドは、四角形の形にクリアする際に使用する
+      // xは四角形の左上のx座標,yは四角形の左上のy座標,wは四角形の幅,h四角形の高さである
+      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     },
   },
 }
 </script>
 
 <style>
+.Vue-palette-title {
+  margin: 0; /* デフォルトCSS打ち消し */
+  position: relative; /* 位置調整 */
+  margin-bottom: 10%; /* 周りの余白指定 */
+  border-bottom: solid 4px rgba(76, 175, 80, 0.6); /* 線指定 */
+  border-radius: 0px 0px 160px 180px/0px 0px 20px 4px; /* 角丸指定 */
+}
 .app {
   display: flex;
   width: 100%;
@@ -254,7 +311,24 @@ export default {
   width: 300px;
   padding-top: 8px;
 }
-.canvas-area{
+.draw-title {
+  text-align: center;
+  font-weight: bold;
+  color: transparent;
+  background: repeating-linear-gradient(
+    45deg,
+    #f5b090 0.1em 0.2em,
+    #fcd7a1 0.2em 0.3em,
+    #fff9b1 0.3em 0.4em,
+    #a5d4ad 0.4em 0.5em,
+    #a3bce2 0.5em 0.6em,
+    #a59aca 0.7em 0.8em,
+    #cfa7cd 0.8em 0.9em
+  );
+  /* background-clip は要素の背景を境界ボックス、パディングボックス、コンテンツボックスのどれまで拡張するかを設定する */
+  -webkit-background-clip: text;
+}
+.canvas-area {
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -264,5 +338,58 @@ export default {
   border: 1px solid black;
   height: 255px;
   width: 255px;
+}
+.current-draw-mode {
+  font-size: 1.5em;
+  text-align: center;
+  line-height: 0.95em;
+  font-weight: bold;
+  margin-top: 1%;
+}
+.tool-area {
+  margin-top: 1%;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+}
+.clear-button {
+  margin: 3px;
+  display: inline-block;
+  padding: 7px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  color: #fff;
+  background-image: linear-gradient(45deg, #aae5e9 0%, #46d6f0 100%);
+  transition: 0.4s;
+}
+.clear-button:hover {
+  background-image: linear-gradient(45deg, #aae5e9 0%, #0ae9f1 100%);
+}
+.eraser-button {
+  margin: 3px;
+  display: inline-block;
+  padding: 7px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  color: #fff;
+  background-image: linear-gradient(45deg, #ffc107 0%, #f7926a 100%);
+  transition: 0.4s;
+}
+.eraser-button:hover {
+  background-image: linear-gradient(45deg, #ffc107 0%, #f54606 100%);
+}
+.pen-button {
+  margin: 3px;
+  display: inline-block;
+  padding: 7px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  color: #fff;
+  background-image: linear-gradient(45deg, #abe7ba 0%, #4df076 100%);
+  transition: 0.4s;
+}
+.pen-button:hover {
+  background-image: linear-gradient(45deg, #abe7ba 0%, #0bf52a 100%);
 }
 </style>
