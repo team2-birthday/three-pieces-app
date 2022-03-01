@@ -104,7 +104,6 @@ export default {
       //描く色をもパレットと同じ色にする
       if (this.drawMode === "pen") {
         this.context.strokeStyle = `rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`
-        console.log(this.context.strokeStyle)
       } else {
         this.context.strokeStyle = "white"
       }
@@ -129,10 +128,8 @@ export default {
       //描く色をもパレットと同じ色にする
       if (this.drawMode === "pen") {
         this.context.strokeStyle = `rgba(${color.red}, ${color.green}, ${color.blue}, ${color.opacity})`
-        console.log(this.context.strokeStyle)
       } else {
         this.context.strokeStyle = "white"
-        console.log(this.context.strokeStyle)
       }
     },
     // 描画
@@ -228,7 +225,7 @@ export default {
     #ef5350 0.4em,
     #c62828 0.5em
   );
-  -webkit-background-clip: text;
+  background-clip: text;
 }
 .green {
   font-size: 1.5em;
@@ -244,7 +241,7 @@ export default {
     #50ef85 0.4em,
     #28c628 0.5em
   );
-  -webkit-background-clip: text;
+  background-clip: text;
 }
 .blue {
   font-size: 1.5em;
@@ -260,7 +257,7 @@ export default {
     #4fc3f7 0.4em,
     #0277bd 0.5em
   );
-  -webkit-background-clip: text;
+  background-clip: text;
 }
 .opacity {
   font-size: 1.5em;
@@ -340,7 +337,7 @@ export default {
     #cfa7cd 0.8em 0.9em
   );
   /* background-clip は要素の背景を境界ボックス、パディングボックス、コンテンツボックスのどれまで拡張するかを設定する */
-  -webkit-background-clip: text;
+  background-clip: text;
 }
 .canvas-area {
   display: flex;
