@@ -3,7 +3,6 @@
   <nav class="navigation">
     <router-link
       to="/quiz"
-      exact-active-class="navigation__link--exact-active"
       v-on:mouseover="overQuiz"
       v-on:mouseout="outQuiz"
       v-bind:class="{
@@ -14,7 +13,6 @@
     >|
     <router-link
       to="/palette"
-      exact-active-class="navigation__link--exact-active"
       v-on:mouseover="overPalette"
       v-on:mouseout="outPalette"
       v-bind:class="{
@@ -25,7 +23,6 @@
     >|
     <router-link
       to="/memo"
-      exact-active-class="navigation__link--exact-active"
       v-on:mouseover="overMemo"
       v-on:mouseout="outMemo"
       v-bind:class="{
