@@ -1,5 +1,12 @@
 <template>
   <h1>Vue メモ</h1>
+  <div>
+    <select name="" id="" v-model="finish">
+      <option value="0">全表示</option>
+      <option value="1">未実行</option>
+      <option value="2">実行済み</option>
+    </select>
+  </div>
   <div class="memo-list">
     <ul class="memo-list__container">
       <li class="memo" v-for="memo in memolist" v-bind:key="memo">
@@ -45,13 +52,13 @@ export default {
       await localStorage.setItem("memo", list_json)
     },
   },
-  // computed: {
-  //   memolist: function () {
-  //     const listJson = localStorage.getItem("memo")
-  //     const listofmemo = JSON.parse(listJson)
-  //     return listofmemo
-  //   },
-  // },
+  computed: {
+    outputList: function () {
+      const listJson = localStorage.getItem("memo")
+      const listofmemo = JSON.parse(listJson)
+      return listofmemo
+    },
+  },
   created: function () {
     const m = JSON.parse(localStorage.getItem("memo"))
     console.log(m)
