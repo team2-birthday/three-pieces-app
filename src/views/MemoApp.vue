@@ -38,7 +38,7 @@ export default {
     },
     deleteButton: async function (str) {
       const i = this.memolist.indexOf(str)
-      console.log(str + i)
+      // console.log(str + i)
       // console.log(`${i}, ${str}`)
       this.memolist.splice(i, 1)
       let list_json = JSON.stringify(this.memolist)
@@ -56,7 +56,7 @@ export default {
     const m = JSON.parse(localStorage.getItem("memo"))
     console.log(m)
     if (m) {
-      console.log(m)
+      // console.log(m)
       this.memolist = [...m]
     } else {
       localStorage.setItem("memo", "[]")
