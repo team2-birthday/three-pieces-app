@@ -30,7 +30,12 @@
       </li>
     </ul>
     <div class="add-memo-field">
-      <input class="add-memo-field__input" type="text" v-model="inputmemo" />
+      <input
+        class="add-memo-field__input"
+        type="text"
+        v-on:keydown.enter="saveMemo"
+        v-model="inputmemo"
+      />
       <button class="add-memo-field__button" v-on:click="saveMemo">追加</button>
     </div>
   </div>
@@ -87,6 +92,9 @@ export default {
       this.memolist[index].color = color
       let list_json = JSON.stringify(this.memolist)
       localStorage.setItem("memo", list_json)
+    },
+    clickEnter: function () {
+      this.saveMemo()
     },
   },
   computed: {
