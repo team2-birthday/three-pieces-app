@@ -1,4 +1,9 @@
 <template>
   <h1>Home</h1>
   <div>ここにそれぞれのアプリに行けるリンクを設置する</div>
+  <footer>
+    <p>かいと</p>
+    <p>こうへい</p>
+    <p>あきと</p>
+  </footer>
 </template>
