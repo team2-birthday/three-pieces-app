@@ -1,21 +1,29 @@
 <template>
   <h1>Vue メモ</h1>
-  <div>
+  <!-- <div>
     <select name="" id="" v-model="finish">
       <option value="0">全表示</option>
       <option value="1">未実行</option>
       <option value="2">実行済み</option>
     </select>
-  </div>
+  </div> -->
   <div class="memo-list">
     <ul class="memo-list__container">
-      <li class="memo" v-for="(obj, index) in outputList" v-bind:key="obj">
+      <li
+        class="memo"
+        v-for="(obj, index) in memolist"
+        v-bind:key="obj"
+        v-bind:style="{ backgroundColor: colors[obj.color] }"
+      >
         <div class="memo_checkbox">
           <input
             type="checkbox"
-            v-model="outputList[index].flag"
+            v-model="memolist[index].flag"
             v-on:change="changeFlag"
           />
+          <button class="memo_changecolor" v-on:click="changeColor(index)">
+            ☆
+          </button>
         </div>
         <div class="memo_text">{{ obj.memo }}</div>
         <button class="memo_delete" v-on:click="deleteButton(obj)">削除</button>
@@ -34,15 +42,16 @@ export default {
     return {
       inputmemo: "",
       memolist: [],
-      flaglist: [],
+      // flaglist: [],
       flag: true,
       finish: 0,
+      colors: ["white", "#ff9d9d", "#b7f7a3", "#f7f1a3"],
     }
   },
   methods: {
     saveMemo: function () {
       if (this.inputmemo) {
-        this.memolist.push({ flag: false, memo: this.inputmemo })
+        this.memolist.push({ flag: false, color: 0, memo: this.inputmemo })
         // this.flaglist.push(false)
         let list_json = JSON.stringify(this.memolist)
         localStorage.setItem("memo", list_json)
@@ -63,6 +72,19 @@ export default {
       // } else {
       //   this.memolist[index].flag = false
       // }
+      let list_json = JSON.stringify(this.memolist)
+      localStorage.setItem("memo", list_json)
+    },
+    changeColor: function (index) {
+      const variation = 4 - 1
+      const i = this.memolist[index].color
+      var color
+      if (i < variation) {
+        color = i + 1
+      } else {
+        color = 0
+      }
+      this.memolist[index].color = color
       let list_json = JSON.stringify(this.memolist)
       localStorage.setItem("memo", list_json)
     },
@@ -126,8 +148,9 @@ export default {
 }
 
 .memo:hover {
-  color: white;
-  background-color: #b23b61;
+  /* color: white; */
+  /* background-color: #b23b61; */
+  border: 3px solid black;
 }
 
 .memo__text {
@@ -170,6 +193,11 @@ export default {
 
 .add-memo-field__button:hover {
   background-color: #b2ae3b;
+  border-radius: 5px;
+}
+
+.memo_changecolor {
+  background-color: transparent;
   border-radius: 5px;
 }
 </style>
