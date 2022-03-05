@@ -1,5 +1,7 @@
 <template>
   <h1>Home</h1>
+  <div>ここにそれぞれのアプリに行けるリンクを設置する</div>
+
   <nav class="navigation">
     <router-link
       to="/quiz"
