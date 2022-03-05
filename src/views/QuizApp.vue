@@ -1,19 +1,31 @@
 <template>
   <h1>誕生日クイズ！！！！！</h1>
   <div class="app">
-    <h2>Q. {{ "かいとの誕生日は！？" }}</h2>
-    <img class="quiz-image" src="kaito.jpg" alt="クイズタイトル" />
+    <h2>かいとの誕生日は！？</h2>
+    <img class="quiz-image" src="../assets/kaito.jpg" alt="クイズタイトル" />
     <div class="container">
-      <button v-on:click="oneFirst">
+      <button
+        class="btn btn--orange btn--cubic btn--shadow"
+        v-on:click="oneFirst"
+      >
         {{ "2月19日" }}
       </button>
-      <button v-on:click="twoFirst">
+      <button
+        class="btn btn--pink btn--cubic btn--shadow"
+        v-on:click="twoFirst"
+      >
         {{ "4月13日" }}
       </button>
-      <button v-on:click="threeFirst">
+      <button
+        class="btn btn--blue btn--cubic btn--shadow"
+        v-on:click="threeFirst"
+      >
         {{ "7月29日" }}
       </button>
-      <button v-on:click="fourFirst">
+      <button
+        class="btn btn--yellow btn--cubic btn--shadow"
+        v-on:click="fourFirst"
+      >
         {{ "10月24日" }}
       </button>
     </div>
@@ -21,19 +33,31 @@
   </div>
 
   <div class="app">
-    <h2>Q. {{ "こうへいの誕生日は！？" }}</h2>
-    <img class="quiz-image" src="kohei.jpg" alt="クイズタイトル" />
+    <h2>こうへいの誕生日は！？</h2>
+    <img class="quiz-image" src="../assets/kohei.jpg" alt="クイズタイトル" />
     <div class="container">
-      <button v-on:click="oneSecond">
+      <button
+        class="btn btn--orange btn--cubic btn--shadow"
+        v-on:click="oneSecond"
+      >
         {{ "2月19日" }}
       </button>
-      <button v-on:click="twoSecond">
+      <button
+        class="btn btn--pink btn--cubic btn--shadow"
+        v-on:click="twoSecond"
+      >
         {{ "4月13日" }}
       </button>
-      <button v-on:click="threeSecond">
+      <button
+        class="btn btn--blue btn--cubic btn--shadow"
+        v-on:click="threeSecond"
+      >
         {{ "7月29日" }}
       </button>
-      <button v-on:click="fourSecond">
+      <button
+        class="btn btn--yellow btn--cubic btn--shadow"
+        v-on:click="fourSecond"
+      >
         {{ "10月24日" }}
       </button>
     </div>
@@ -41,19 +65,31 @@
   </div>
 
   <div class="app">
-    <h2>Q. {{ "あきとの誕生日は！？" }}</h2>
-    <img class="quiz-image" src="akito.png" alt="クイズタイトル" />
+    <h2>あきとの誕生日は！？</h2>
+    <img class="quiz-image" src="../assets/akito.png" alt="クイズタイトル" />
     <div class="container">
-      <button v-on:click="oneThird">
+      <button
+        class="btn btn--orange btn--cubic btn--shadow"
+        v-on:click="oneThird"
+      >
         {{ "2月19日" }}
       </button>
-      <button v-on:click="twoThird">
+      <button
+        class="btn btn--pink btn--cubic btn--shadow"
+        v-on:click="twoThird"
+      >
         {{ "4月13日" }}
       </button>
-      <button v-on:click="threeThird">
+      <button
+        class="btn btn--blue btn--cubic btn--shadow"
+        v-on:click="threeThird"
+      >
         {{ "7月29日" }}
       </button>
-      <button v-on:click="fourThird">
+      <button
+        class="btn btn--yellow btn--cubic btn--shadow"
+        v-on:click="fourThird"
+      >
         {{ "10月24日" }}
       </button>
     </div>
@@ -61,23 +97,42 @@
   </div>
 
   <div class="app">
-    <h2>Q. {{ "さっきーの誕生日は！？" }}</h2>
+    <h2>さっきーの誕生日は！？</h2>
     <img
       class="quiz-image"
-      src="https://via.placeholder.com/300x300"
+      src="../assets/sacky1.jpg
+      "
+      alt="クイズタイトル"
+    />
+    <img
+      class="quiz-image"
+      src="../assets/sacky2.jpg
+      "
       alt="クイズタイトル"
     />
     <div class="container">
-      <button v-on:click="oneFourth">
+      <button
+        class="btn btn--orange btn--cubic btn--shadow"
+        v-on:click="oneFourth"
+      >
         {{ "2月19日" }}
       </button>
-      <button v-on:click="twoFourth">
+      <button
+        class="btn btn--pink btn--cubic btn--shadow"
+        v-on:click="twoFourth"
+      >
         {{ "4月13日" }}
       </button>
-      <button v-on:click="threeFourth">
+      <button
+        class="btn btn--blue btn--cubic btn--shadow"
+        v-on:click="threeFourth"
+      >
         {{ "7月29日" }}
       </button>
-      <button v-on:click="fourFourth">
+      <button
+        class="btn btn--yellow btn--cubic btn--shadow"
+        v-on:click="fourFourth"
+      >
         {{ "10月24日" }}
       </button>
     </div>
@@ -172,5 +227,54 @@ export default {
   width: 300px;
   padding: 1em;
   justify-content: space-around;
+}
+
+.btn--orange {
+  color: #fff;
+  background-color: #eb6100;
+  border-bottom: 5px solid #b84c00;
+}
+.btn--orange:hover {
+  margin-top: 3px;
+  color: #fff;
+  background: #f56500;
+  border-bottom: 2px solid #b84c00;
+}
+.btn--pink {
+  color: #fff;
+  background-color: #e615e6;
+  border-bottom: 5px solid #c5029b;
+}
+.btn--pink:hover {
+  margin-top: 3px;
+  color: #fff;
+  background-color: #e615e6;
+  border-bottom: 2px solid #da00e6;
+}
+.btn--yellow {
+  color: #fff;
+  background-color: #f0d612;
+  border-bottom: 5px solid #b8a201;
+}
+.btn--yellow:hover {
+  margin-top: 3px;
+  color: #fff;
+  background-color: #f0d612;
+  border-bottom: 2px solid #b8a201;
+}
+.btn--blue {
+  color: #fff;
+  background-color: #0b2ce9;
+  border-bottom: 5px solid #3600a2;
+}
+.btn--blue:hover {
+  margin-top: 3px;
+  color: #fff;
+  background-color: #0b2ce9;
+  border-bottom: 2px solid #3600a2;
+}
+.btn--shadow {
+  -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
 }
 </style>
